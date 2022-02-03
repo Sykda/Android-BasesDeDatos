@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             registro.put("precio", precio);
 
             BaseDeDatos.insert("articulos", null,registro);
+
             BaseDeDatos.close();
             et_codigo.setText("");
             et_descripcion.setText("");
