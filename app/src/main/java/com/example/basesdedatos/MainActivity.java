@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             registro.put("descripcion", descripcion);
             registro.put("precio", precio);
 
-            BaseDeDatos.insert("articulos", null,registro);
+            BaseDeDatos.insert("articulos", null, registro);
 
             BaseDeDatos.close();
             et_codigo.setText("");
@@ -57,13 +57,12 @@ public class MainActivity extends AppCompatActivity {
     //Metodo para consultar un artículo o producto
     public void buscar(View view){
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
-        SQLiteDatabase BaseDeDatabase=admin.getWritableDatabase();
+        SQLiteDatabase BaseDeDatabase=admin.getReadableDatabase();
 
         String codigo=et_codigo.getText().toString();
 
         if(!codigo.isEmpty()){
-            Cursor fila= BaseDeDatabase.rawQuery
-                    ("select descripcion, precio from articulos where codigo="+codigo, null);
+            Cursor fila= BaseDeDatabase.rawQuery("select descripcion, precio from articulos where codigo="+codigo, null);
 
             if(fila.moveToFirst()){
                 et_descripcion.setText(fila.getString(0));
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 BaseDeDatabase.close();
             }else{
                 Toast.makeText(this,"No existe el artículo", Toast.LENGTH_SHORT).show();
+                BaseDeDatabase.close();
             }
         }else{
             Toast.makeText(this, "Debes introducir el código del artículo", Toast.LENGTH_SHORT).show();
